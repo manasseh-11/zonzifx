@@ -1,0 +1,6 @@
+{
+  "name": "ZonziFX Academy",
+  "description": "Institutional Grade Trading Education, verified performance metrics, and professional order flow mastery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

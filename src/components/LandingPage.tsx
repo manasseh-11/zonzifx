@@ -89,8 +89,8 @@ export default function LandingPage({ onNavigate, onSelectProgram, programs, tes
             </div>
 
             <h1 className="font-headline text-4xl sm:text-5xl md:text-[56px] leading-[1.1] font-bold tracking-tight text-white">
-              Master the Art of <br />
-              <span className="gold-text-gradient">Institutional Trading</span>
+              Master Forex Trading at <br />
+              <span className="gold-text-gradient">ZonziFX Academy</span>
             </h1>
 
             <p className="text-[#cfc4c5] text-lg leading-relaxed max-w-lg font-sans">
@@ -469,14 +469,14 @@ export default function LandingPage({ onNavigate, onSelectProgram, programs, tes
                         0{levelNum}
                       </span>
                       <div>
-                        <h4 className="font-headline text-lg font-bold text-white flex items-center gap-2">
+                        <h3 className="font-headline text-lg font-bold text-white flex items-center gap-2">
                           {program.name}
                           {program.status && program.status !== "active" && (
                             <span className="px-2 py-0.5 rounded text-[8px] font-mono font-bold uppercase tracking-wider bg-rose-500/10 text-rose-400 border border-rose-500/20">
                               {program.status === "soon" ? "Soon to Come" : "Locked"}
                             </span>
                           )}
-                        </h4>
+                        </h3>
                         <p className="text-xs text-[#cfc4c5]">{program.tagline}</p>
                       </div>
                     </div>

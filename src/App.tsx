@@ -129,34 +129,41 @@ export default function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    // Dynamic SEO Titles and Meta Descriptions
-    let title = "ZonziFX Academy - Premium Trading Curriculum & Watchroom";
-    let metaDesc = "Precision instruction and custom analytics for disciplined global currency market participants. Access masterclasses, webinars, and verified trade outcomes.";
+    // Dynamic SEO Titles, Canonical Links, and Social Cards
+    let title = "ZonziFX Academy | Premium Forex Trading Masterclasses";
+    let metaDesc = "Precision instruction and order-flow analytics for disciplined currency market participants. Access masterclasses, bi-weekly live webinars, and risk management training.";
+    let canonical = "https://www.zonzifx.com/";
 
     switch (currentPage) {
       case "landing":
-        title = "ZonziFX Academy - Learn Forex & Professional Trading";
-        metaDesc = "Join ZonziFX Academy. Learn Forex and professional currency trading with verified institutional outcomes, live webinars, and masterclasses.";
+        title = "ZonziFX Academy | Premium Forex Trading Masterclasses";
+        metaDesc = "Precision instruction and order-flow analytics for disciplined currency market participants. Access masterclasses, bi-weekly live webinars, and risk management training.";
+        canonical = "https://www.zonzifx.com/";
         break;
       case "enroll":
-        title = "Enroll at ZonziFX Academy - Start Your Trading Journey";
-        metaDesc = "Register for ZonziFX masterclasses and training programs. Take the first step towards institutional market analysis.";
+        title = "Register & Enroll - ZonziFX Academy";
+        metaDesc = "Register for premium Forex trading masterclasses and training programs. Take the first step towards institutional order-flow analysis.";
+        canonical = "https://www.zonzifx.com/enroll";
         break;
       case "checkout":
         title = "Secure Checkout - ZonziFX Academy";
         metaDesc = "Complete your tuition enrollment securely using AES-256 encrypted gateway integrations.";
+        canonical = "https://www.zonzifx.com/checkout";
         break;
       case "success":
         title = "Enrollment Successful - Welcome to ZonziFX Academy";
         metaDesc = "Your enrollment transaction has been successfully logged. Get ready to access premium watchrooms.";
+        canonical = "https://www.zonzifx.com/success";
         break;
       case "vault":
-        title = "Lectures Watchroom - ZonziFX Academy";
+        title = "Lectures Watchroom Login - ZonziFX Academy";
         metaDesc = "Log in to view live webinars, exclusive masterclass recordings, and downloadable PDF playbook resources.";
+        canonical = "https://www.zonzifx.com/vault";
         break;
       case "admin":
         title = "Security Portal - ZonziFX Academy Operator Console";
         metaDesc = "Secure operator terminal for ZonziFX institutional database sync and course curriculum management.";
+        canonical = "https://www.zonzifx.com/admin";
         break;
     }
 
@@ -170,6 +177,35 @@ export default function App() {
       document.head.appendChild(metaDescriptionEl);
     }
     metaDescriptionEl.setAttribute("content", metaDesc);
+
+    // Update Canonical Link
+    let canonicalEl = document.querySelector('link[rel="canonical"]');
+    if (!canonicalEl) {
+      canonicalEl = document.createElement("link");
+      canonicalEl.setAttribute("rel", "canonical");
+      document.head.appendChild(canonicalEl);
+    }
+    canonicalEl.setAttribute("href", canonical);
+
+    // Update OpenGraph Title
+    let ogTitleEl = document.querySelector('meta[property="og:title"]');
+    if (ogTitleEl) ogTitleEl.setAttribute("content", title);
+
+    // Update OpenGraph Description
+    let ogDescEl = document.querySelector('meta[property="og:description"]');
+    if (ogDescEl) ogDescEl.setAttribute("content", metaDesc);
+
+    // Update OpenGraph URL
+    let ogUrlEl = document.querySelector('meta[property="og:url"]');
+    if (ogUrlEl) ogUrlEl.setAttribute("content", canonical);
+
+    // Update Twitter Title
+    let twitterTitleEl = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitleEl) twitterTitleEl.setAttribute("content", title);
+
+    // Update Twitter Description
+    let twitterDescEl = document.querySelector('meta[name="twitter:description"]');
+    if (twitterDescEl) twitterDescEl.setAttribute("content", metaDesc);
   }, [currentPage]);
 
   const handleSelectProgram = (id: string) => {
@@ -313,7 +349,7 @@ export default function App() {
 
             <div className="pt-8 border-t border-white/5 space-y-4">
               <p className="font-mono text-[10px] text-[#353535] leading-relaxed uppercase">
-                RISK WARNING: Trading foreign exchange (Forex) on margin carries high risk, and may not be suitable for all traders. Leveraging creates additional risk exposure. Before deciding to trade foreign exchange, carefully consider investment targets, experience level, and risk appetite. Past results are not indicative of future performance.
+                RISK WARNING: Forex trading involves substantial risk and may not be suitable for all individuals. The educational content provided by ZonziFX Academy does not constitute financial or investment advice. Past performance does not guarantee future results.
               </p>
               <div className="flex flex-col sm:flex-row justify-between text-[11px] text-[#353535] gap-2">
                 <span>© 2026 ZonziFX Academy. All institutional rights reserved.</span>

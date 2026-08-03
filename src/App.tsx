@@ -50,6 +50,12 @@ export default function App() {
     }
   }, [studentUser]);
 
+  const navigateTo = (page: string) => {
+    setCurrentPage(page);
+    const path = page === "landing" ? "/" : `/${page}`;
+    window.history.pushState(null, "", path);
+  };
+
   // Load data from the backend database endpoints on mount
   useEffect(() => {
     const loadAllData = async () => {
@@ -76,6 +82,36 @@ export default function App() {
     };
     
     loadAllData();
+
+    // Parse URL on mount for routing
+    const path = window.location.pathname.toLowerCase().replace(/^\//, "");
+    if (path === "admin") {
+      setCurrentPage("admin");
+    } else if (path === "vault") {
+      setCurrentPage("vault");
+    } else if (path === "enroll") {
+      setCurrentPage("enroll");
+    } else if (path === "checkout") {
+      setCurrentPage("checkout");
+    } else if (path === "success") {
+      setCurrentPage("success");
+    } else {
+      setCurrentPage("landing");
+    }
+
+    // Handle back/forward buttons
+    const handlePopState = () => {
+      const p = window.location.pathname.toLowerCase().replace(/^\//, "");
+      if (p === "admin") setCurrentPage("admin");
+      else if (p === "vault") setCurrentPage("vault");
+      else if (p === "enroll") setCurrentPage("enroll");
+      else if (p === "checkout") setCurrentPage("checkout");
+      else if (p === "success") setCurrentPage("success");
+      else setCurrentPage("landing");
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
   // Registration user state
@@ -92,6 +128,48 @@ export default function App() {
   // Smooth scroll to top on page switches
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+
+    // Dynamic SEO Titles and Meta Descriptions
+    let title = "ZonziFX Academy - Premium Trading Curriculum & Watchroom";
+    let metaDesc = "Precision instruction and custom analytics for disciplined global currency market participants. Access masterclasses, webinars, and verified trade outcomes.";
+
+    switch (currentPage) {
+      case "landing":
+        title = "ZonziFX Academy - Learn Forex & Professional Trading";
+        metaDesc = "Join ZonziFX Academy. Learn Forex and professional currency trading with verified institutional outcomes, live webinars, and masterclasses.";
+        break;
+      case "enroll":
+        title = "Enroll at ZonziFX Academy - Start Your Trading Journey";
+        metaDesc = "Register for ZonziFX masterclasses and training programs. Take the first step towards institutional market analysis.";
+        break;
+      case "checkout":
+        title = "Secure Checkout - ZonziFX Academy";
+        metaDesc = "Complete your tuition enrollment securely using AES-256 encrypted gateway integrations.";
+        break;
+      case "success":
+        title = "Enrollment Successful - Welcome to ZonziFX Academy";
+        metaDesc = "Your enrollment transaction has been successfully logged. Get ready to access premium watchrooms.";
+        break;
+      case "vault":
+        title = "Lectures Watchroom - ZonziFX Academy";
+        metaDesc = "Log in to view live webinars, exclusive masterclass recordings, and downloadable PDF playbook resources.";
+        break;
+      case "admin":
+        title = "Security Portal - ZonziFX Academy Operator Console";
+        metaDesc = "Secure operator terminal for ZonziFX institutional database sync and course curriculum management.";
+        break;
+    }
+
+    document.title = title;
+    
+    // Update Meta Description
+    let metaDescriptionEl = document.querySelector('meta[name="description"]');
+    if (!metaDescriptionEl) {
+      metaDescriptionEl = document.createElement("meta");
+      metaDescriptionEl.setAttribute("name", "description");
+      document.head.appendChild(metaDescriptionEl);
+    }
+    metaDescriptionEl.setAttribute("content", metaDesc);
   }, [currentPage]);
 
   const handleSelectProgram = (id: string) => {
@@ -100,12 +178,12 @@ export default function App() {
 
   const handleEnrollSubmit = (data: EnrollmentData) => {
     setEnrollment(data);
-    setCurrentPage("checkout");
+    navigateTo("checkout");
   };
 
   const handlePaymentSuccess = (paymentReceipt: PaymentReceipt) => {
     setReceipt(paymentReceipt);
-    setCurrentPage("success");
+    navigateTo("success");
   };
 
   const handleReset = () => {
@@ -117,13 +195,13 @@ export default function App() {
     });
     setReceipt(null);
     setSelectedProgramId("professional");
-    setCurrentPage("landing");
+    navigateTo("landing");
   };
 
   return (
     <div className="min-h-screen bg-[#0c0c0c] text-[#e2e2e2] flex flex-col font-sans selection:bg-[#e9c349]/30">
       {/* Global Navigation Header */}
-      <Header currentPage={currentPage} onNavigate={setCurrentPage} />
+      <Header currentPage={currentPage} onNavigate={navigateTo} />
 
       {/* Main Screen Layout Container with Motion Transition Effects */}
       <div className="flex-grow">
@@ -138,7 +216,7 @@ export default function App() {
           >
             {currentPage === "landing" && (
               <LandingPage 
-                onNavigate={setCurrentPage} 
+                onNavigate={navigateTo} 
                 onSelectProgram={handleSelectProgram} 
                 programs={programs}
                 testimonials={testimonials}
@@ -149,7 +227,7 @@ export default function App() {
             {currentPage === "enroll" && (
               <EnrollPage 
                 selectedProgramId={selectedProgramId} 
-                onNavigate={setCurrentPage} 
+                onNavigate={navigateTo} 
                 onSubmitEnrollment={handleEnrollSubmit} 
                 programs={programs}
                 webhookUrl={webhookUrl}
@@ -162,7 +240,7 @@ export default function App() {
             {currentPage === "checkout" && (
               <CheckoutPage 
                 enrollmentData={enrollment} 
-                onNavigate={setCurrentPage} 
+                onNavigate={navigateTo} 
                 onPaymentSuccess={handlePaymentSuccess} 
                 programs={programs}
               />
@@ -179,12 +257,12 @@ export default function App() {
               studentUser ? (
                 <VideoVault
                   videos={videos}
-                  onNavigate={setCurrentPage}
+                  onNavigate={navigateTo}
                 />
               ) : (
                 <StudentLogin
                   onLoginSuccess={(user) => setStudentUser(user)}
-                  onNavigate={setCurrentPage}
+                  onNavigate={navigateTo}
                 />
               )
             )}
@@ -205,7 +283,7 @@ export default function App() {
                 setVideos={setVideos}
                 paymentGatewayEnabled={paymentGatewayEnabled}
                 setPaymentGatewayEnabled={setPaymentGatewayEnabled}
-                onNavigate={setCurrentPage}
+                onNavigate={navigateTo}
               />
             )}
           </motion.div>
@@ -226,11 +304,10 @@ export default function App() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-8 text-xs font-mono">
-                <a href="#curriculum" onClick={() => currentPage !== "landing" && setCurrentPage("landing")} className="text-[#cfc4c5]/60 hover:text-white transition-colors cursor-pointer">Syllabus</a>
-                <a href="#results" onClick={() => currentPage !== "landing" && setCurrentPage("landing")} className="text-[#cfc4c5]/60 hover:text-white transition-colors cursor-pointer">Verified Results</a>
-                <a onClick={() => setCurrentPage("vault")} className="text-[#cfc4c5]/60 hover:text-[#e9c349] transition-colors cursor-pointer">Lectures Watchroom</a>
-                <a onClick={() => setCurrentPage("enroll")} className="text-[#cfc4c5]/60 hover:text-white transition-colors cursor-pointer">Register</a>
-                <a onClick={() => setCurrentPage("admin")} className="text-[#cfc4c5]/60 hover:text-[#e9c349] transition-colors cursor-pointer font-bold">Admin Portal</a>
+                <a href="#curriculum" onClick={() => currentPage !== "landing" && navigateTo("landing")} className="text-[#cfc4c5]/60 hover:text-white transition-colors cursor-pointer">Syllabus</a>
+                <a href="#results" onClick={() => currentPage !== "landing" && navigateTo("landing")} className="text-[#cfc4c5]/60 hover:text-white transition-colors cursor-pointer">Verified Results</a>
+                <a onClick={() => navigateTo("vault")} className="text-[#cfc4c5]/60 hover:text-[#e9c349] transition-colors cursor-pointer">Lectures Watchroom</a>
+                <a onClick={() => navigateTo("enroll")} className="text-[#cfc4c5]/60 hover:text-white transition-colors cursor-pointer">Register</a>
               </div>
             </div>
 

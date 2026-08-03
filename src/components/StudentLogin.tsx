@@ -45,12 +45,6 @@ export default function StudentLogin({ onLoginSuccess, onNavigate }: StudentLogi
     }
   };
 
-  const handleAutofillDemo = () => {
-    setEmail("alex@trading.com");
-    setAccessCode("ZF-9021");
-    setError("");
-  };
-
   return (
     <div className="relative pt-24 min-h-screen bg-[#0c0c0c] text-white flex items-center justify-center p-4 select-none font-mono">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[350px] h-[350px] bg-[#e9c349]/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -152,19 +146,6 @@ export default function StudentLogin({ onLoginSuccess, onNavigate }: StudentLogi
             </button>
           </div>
         </form>
-
-        <div className="mt-4 pt-4 border-t border-white/5 text-center">
-          <button 
-            onClick={handleAutofillDemo}
-            className="text-[10px] font-mono text-[#e9c349]/70 hover:text-[#e9c349] transition-colors border border-[#e9c349]/20 hover:border-[#e9c349]/50 px-3 py-1.5 rounded bg-white/5 active:scale-95 cursor-pointer"
-          >
-            💡 Quick Demo Login (Pre-Approved Student)
-          </button>
-          <p className="text-[9px] text-[#cfc4c5]/40 mt-3 font-sans">
-            Demo account: <code className="text-white select-all">alex@trading.com</code> / code <code className="text-white select-all">ZF-9021</code>
-          </p>
-        </div>
-
       </div>
     </div>
   );

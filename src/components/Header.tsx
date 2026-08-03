@@ -82,13 +82,6 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
         {currentPage === "landing" && (
           <div className="flex items-center gap-3">
             <button
-              onClick={() => onNavigate("admin")}
-              className="text-[#cfc4c5] hover:text-[#e9c349] hover:bg-white/5 transition-all p-2 rounded cursor-pointer"
-              title="Operator Portal"
-            >
-              <Lock className="w-4 h-4" />
-            </button>
-            <button
               onClick={() => onNavigate("enroll")}
               className="gold-gradient text-black font-headline text-xs md:text-sm px-5 py-2.5 rounded font-bold hover:scale-[1.03] active:scale-95 transition-all inner-glow cursor-pointer"
             >

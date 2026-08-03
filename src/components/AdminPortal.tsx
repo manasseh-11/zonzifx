@@ -127,11 +127,6 @@ export default function AdminPortal({
     }
   };
 
-  const handleAutofill = () => {
-    setUsername("admin");
-    setPassword("admin");
-  };
-
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUsername("");
@@ -532,18 +527,6 @@ export default function AdminPortal({
               </button>
             </div>
           </form>
-
-          <div className="mt-6 pt-5 border-t border-white/5 text-center">
-            <button 
-              onClick={handleAutofill}
-              className="text-[10px] font-mono text-[#e9c349]/70 hover:text-[#e9c349] transition-colors border border-[#e9c349]/20 hover:border-[#e9c349]/50 px-3 py-1.5 rounded bg-white/5 active:scale-95 cursor-pointer"
-            >
-              💡 Quick Login (Auto-fill Demo)
-            </button>
-            <p className="text-[9px] text-[#cfc4c5]/40 mt-3">
-              Default login keys: <code className="text-white select-all">admin</code> / <code className="text-white select-all">admin</code>
-            </p>
-          </div>
         </div>
       </div>
     );
